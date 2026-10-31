@@ -1,0 +1,13 @@
+{
+  "name": "super-sefer",
+  "version": "1.0.0",
+  "description": "סופר-ספר: מערכת ליצירת ספרים מקצה לקצה (כתיבה, עריכה, הגהה, עימוד, כריכה, איורים, PDF)",
+  "author": {
+    "name": "סופר-ספר"
+  },
+  "keywords": [
+    "books",
+    "hebrew",
+    "publishing"
+  ]
+}

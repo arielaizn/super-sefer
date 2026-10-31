@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><body><script type="module">
+import * as pdfjs from '../node_modules/pdfjs-dist/build/pdf.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = '../node_modules/pdfjs-dist/build/pdf.worker.mjs';
+window.rasterize = async (b64, pages, scale) => {
+  const bin = atob(b64); const data = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) data[i] = bin.charCodeAt(i);
+  const doc = await pdfjs.getDocument({ data }).promise;
+  const list = pages || Array.from({ length: doc.numPages }, (_, i) => i + 1);
+  const out = [];
+  for (const n of list) {
+    if (n < 1 || n > doc.numPages) continue;
+    const pg = await doc.getPage(n); const vp = pg.getViewport({ scale });
+    const c = document.createElement('canvas'); c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+    await pg.render({ canvasContext: c.getContext('2d'), viewport: vp, background: 'white' }).promise;
+    out.push({ n, w: c.width, h: c.height, data: c.toDataURL('image/png') });
+  }
+  return { numPages: doc.numPages, pages: out };
+};
+document.title = 'ready';
+</script>

@@ -1,0 +1,5 @@
+node_modules/
+dist/
+build/*.pdf
+*.log
+.DS_Store
